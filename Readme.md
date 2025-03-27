@@ -9,7 +9,6 @@ This work aims to address two key scientific challenges:
 2. **Application to Protein Folding Dynamics**: Extending the predictive framework to model the dynamic folding processes of proteins, offering insights into their physicochemical properties changes.  
 
 ![Project Overview](assets/fig1.png)  
-<!-- 这里插入一张概览图片，展示研究框架或关键实验示意图 -->
 
 ---
 
@@ -85,11 +84,9 @@ If you use this code, please cite our work as follows:
 
 ```bibtex
 @article{yourpaper2025,
-  author    = {Your Name and Collaborators},
+  author    = {Zhen Wang},
   title     = {Dynamic Prediction of Protein Physicochemical Properties Using 2D IR Spectroscopy with Machine Learning},
-  journal   = {Conference Name},
   year      = {2025},
-  doi       = {10.xxxx/xxxx}
 }
 ```
 
@@ -108,5 +105,3 @@ For any questions or inquiries, please contact:
 📧 Email: feiyufei859@gmail.com  
 Or open an issue in this repository.  
 ```
-
----
