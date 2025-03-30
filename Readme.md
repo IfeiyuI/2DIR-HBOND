@@ -1,68 +1,89 @@
-# Dynamic Prediction of Protein Physicochemical Properties Using 2D IR Spectroscopy with Machine Learning  
+# Dynamic Prediction of Protein Physicochemical Properties Using 2D IR Spectroscopy with Machine Learning
 
-## Overview  
+## Overview
 
-This repository contains the source code for our study, which employs **2D infrared (IR) spectroscopy** as a machine learning descriptor to predict the physicochemical properties of proteins. By leveraging the spectral signal as input, our model effectively extracts meaningful physicochemical information from previously unseen 2D IR spectra, facilitating a deeper understanding of protein characteristics.  
+This repository contains the source code for our study, which employs **2D infrared (IR) spectroscopy** as a machine learning descriptor to predict the physicochemical properties of proteins. By leveraging the spectral signal as input, our model effectively extracts meaningful physicochemical information from previously unseen 2D IR spectra, facilitating a deeper understanding of protein characteristics.
 
-This work aims to address two key scientific challenges:
-1. **Feature Extraction from Spectral Data**: Developing machine learning techniques capable of capturing physicochemical properties embedded within complex spectral signals.  
-2. **Application to Protein Folding Dynamics**: Extending the predictive framework to model the dynamic folding processes of proteins, offering insights into their physicochemical properties changes.  
+This work addresses two key scientific challenges:
 
-![Project Overview](assets/fig1.png)  
+1. **Feature Extraction from Spectral Data**: Developing ML techniques capable of capturing physicochemical properties embedded within complex spectral signals.
+2. **Application to Protein Folding Dynamics**: Extending the predictive framework to model the dynamic folding processes of proteins, offering insights into their physicochemical changes.
 
----
-
-## Repository Structure  
-
-The repository consists of the following key components:  
-
-- `config.py` – Defines hyperparameters and experiment settings.  
-
-- `model.py` – Loads and modifies a pre-trained **Swin Transformer** model to adapt it for the specific task of spectral data analysis.  
-
-- `dataload.py` – Handles data preprocessing, including loading, normalization, and transformation of 2D IR spectral data.  
-
-- `train_base_model.py` – Implements training procedures for the **baseline model**, which learns from raw spectral data.  
-
-- `train_transfer_model.py` – Implements **transfer learning**, allowing the model to generalize across different spectral datasets.  
-
-- `test_base_model.py` – Evaluates the performance of the **baseline model**, generating results and key performance metrics.  
-
-- `test_transfer_model.py` – Evaluates the **transfer learning model**, providing insights into its generalization ability across different datasets.  
+![Project Overview](assets/fig1.png)
+Workflow for protein structure prediction based on 2DIR spectroscopy. (A) shows the construction of the dataset, including the extraction of protein structures and their spectral features from both static and dynamic datasets. (B) details the generation of the pre-training dataset, illustrating how 2DIR spectra are simulated by mapping physicochemical properties such as hydrogen bonds, hydrophobicity, isoelectric point, and length to the spectra. (C) presents the architecture of the Swin-Transformer-based model, which combines convolutional layers to extract spectral features and refines them through layer-by-layer convolution and self-attention mechanisms, ultimately predicting the physicochemical properties of the proteins.
 
 ---
 
-## Dataset  
+## Repository Structure
 
-The dataset used in this study is hosted on **Zenodo**, providing easy access and ensuring academic reproducibility.  
-
-📥 [Download Dataset from Zenodo](https://zenodo.org/record/xxxxx)  
-
-After downloading, extract the dataset into the `data/` directory:  
-
-```bash
-mkdir data
-mv downloaded_dataset.zip data/
-unzip data/downloaded_dataset.zip
+```
+- config.py                 # Defines hyperparameters and experiment settings.
+- model.py                 # Loads and modifies a pre-trained Swin Transformer model for spectral data analysis.
+- dataload.py              # Handles data preprocessing, including loading, normalization, and transformation.
+- train_base_model.py      # Baseline training using static spectral data.
+- train_transfer_model.py  # Transfer learning on dynamic protein spectra.
+- test_base_model.py       # Evaluation of the baseline model.
+- test_transfer_model.py   # Evaluation of the transfer learning model.
 ```
 
 ---
 
-## Usage  
+## Pretrained Model
 
-Run the baseline model training with:  
+The Swin Transformer backbone is initialized with ImageNet-pretrained weights.
+Please download the pretrained model and place it in:
+
+```bash
+./swin_pretrain_model/
+```
+
+You can modify the path in `model.py` if needed.
+
+---
+
+## Dataset
+
+The dataset used in this study is hosted on **Zenodo** for public access and reproducibility:
+
+📥 [Download Dataset from Zenodo](https://zenodo.org/record/xxxxx)
+
+After downloading:
+
+```bash
+mkdir data
+mv downloaded_dataset.zip data/
+unzip data/downloaded_dataset.zip -d data/
+```
+
+Dataset structure:
+- `base/` folder: Static proteins (single structure)
+- `dynamic/` folder: MD-simulated trajectories (6 proteins with multiple time frames)
+
+Each sample includes:
+- 2D IR spectrum image in PNG format
+- Corresponding label Excel sheet with:
+  - `H`: Hydrogen bond count
+  - `SASA_Hydrophobic`: Hydrophobic surface area
+  - `L`: Protein length
+  - `pI`: Isoelectric point
+
+---
+
+## Usage
+
+Run the baseline model training with:
 
 ```bash
 python train_base_model.py --config configs/base_config.yaml
 ```
 
-Train the transfer learning model with:  
+Train the transfer learning model with:
 
 ```bash
 python train_transfer_model.py --config configs/transfer_config.yaml
 ```
 
-To evaluate a trained model:  
+To evaluate a trained model:
 
 ```bash
 python model.py --input data/test_spectra/
@@ -70,38 +91,39 @@ python model.py --input data/test_spectra/
 
 ---
 
-## Results  
+## Results
 
-![Project Overview](assets/fig2.png)  
+![Project Overview](assets/fig2.png)
+Prediction results of the model pre-trained on the static dataset. (A) The model's predictions for hydrogen bond counts show strong agreement with molecular dynamics simulation results. (B) Predicted hydrophobic surface area closely matches the simulated values. (C) The model accurately predicts the isoelectric point (pI) of proteins. (D) Predicted protein length demonstrates high consistency with true values. The diagonal dashed line in each subplot represents the ideal 1:1 correlation, with histograms illustrating the distributions of true and predicted values along the respective axes.
 
-![Project Overview](assets/fig3.png)  
+![Project Overview](assets/fig3.png)
+Transfer learning results for protein folding trajectories simulated on the Anton supercomputer. From top to bottom, the panels correspond to the prediction outcomes for Trp-cage, α3D, cln025, and NUG2.
 
 ---
 
-## Citation  
+## Citation
 
-If you use this code, please cite our work as follows:  
+This work is not yet published. If referencing, please cite as:
 
 ```bibtex
-@article{yourpaper2025,
+@misc{wang2025,
   author    = {Zhen Wang},
   title     = {Dynamic Prediction of Protein Physicochemical Properties Using 2D IR Spectroscopy with Machine Learning},
   year      = {2025},
+  note      = {Manuscript in preparation}
 }
 ```
 
 ---
 
-## License  
+## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.  
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
-## Contact  
+## Contact
 
-For any questions or inquiries, please contact:  
+📧 Email: [feiyufei859@gmail.com](mailto:feiyufei859@gmail.com)  
+🛠️ Or open an issue in this repository for questions or suggestions.
 
-📧 Email: feiyufei859@gmail.com  
-Or open an issue in this repository.  
-```
