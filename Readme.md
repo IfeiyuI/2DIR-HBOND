@@ -2,15 +2,15 @@
 
 ## Overview
 
-This repository contains the source code for our study, which employs **2D infrared (IR) spectroscopy** as a machine learning descriptor to predict the physicochemical properties of proteins. By leveraging the spectral signal as input, our model effectively extracts meaningful physicochemical information from previously unseen 2D IR spectra, facilitating a deeper understanding of protein characteristics.
+This repository contains the source code for our study, which employs **two-dimensional infrared (2D IR) spectroscopy** as a machine learning descriptor to predict the physicochemical properties of proteins. By leveraging spectral signals as input, the model learns mappings between 2D IR spectra and protein physicochemical properties, enabling quantitative analysis of previously unseen spectra.
 
 This work addresses two key scientific challenges:
 
-1. **Feature Extraction from Spectral Data**: Developing ML techniques capable of capturing physicochemical properties embedded within complex spectral signals.
+1. **Feature Extraction from Spectral Data**: Developing machine learning models capable of capturing physicochemical properties embedded within complex spectral signals.
 2. **Application to Protein Folding Dynamics**: Extending the predictive framework to model the dynamic folding processes of proteins, offering insights into their physicochemical changes.
 
 ![Project Overview](assets/fig1.png)
-Workflow for protein structure prediction based on 2DIR spectroscopy. (A) shows the construction of the dataset, including the extraction of protein structures and their spectral features from both static and dynamic datasets. (B) details the generation of the pre-training dataset, illustrating how 2DIR spectra are simulated by mapping physicochemical properties such as hydrogen bonds, hydrophobicity, isoelectric point, and length to the spectra. (C) presents the architecture of the Swin-Transformer-based model, which combines convolutional layers to extract spectral features and refines them through layer-by-layer convolution and self-attention mechanisms, ultimately predicting the physicochemical properties of the proteins.
+Workflow for protein structure prediction based on 2DIR spectroscopy. (A) shows the construction of the dataset, including the extraction of protein structures and their spectral features from both static and dynamic datasets. (B) details the generation of the pre-training dataset, illustrating how 2D IR spectra are simulated by mapping physicochemical properties such as hydrogen bond count, hydrophobic solvent-accessible surface area (SASA), isoelectric point (pI), protein length, radius of gyration (Rg), and contact order (CO) to the spectra. (C) presents the architecture of the Swin-Transformer-based model, which combines convolutional layers to extract spectral features and refines them through layer-by-layer convolution and self-attention mechanisms, ultimately predicting the physicochemical properties of the proteins.
 
 ---
 
@@ -66,7 +66,8 @@ Each sample includes:
   - `SASA_Hydrophobic`: Hydrophobic surface area
   - `L`: Protein length
   - `pI`: Isoelectric point
-
+  - `Rg`: Radius of gyration
+  - `CO`: Contact order
 ---
 
 ## Usage
@@ -93,11 +94,20 @@ python model.py --input data/test_spectra/
 
 ## Results
 
-![Project Overview](assets/fig2.png)
-Prediction results of the model pre-trained on the static dataset. (A) The model's predictions for hydrogen bond counts show strong agreement with molecular dynamics simulation results. (B) Predicted hydrophobic surface area closely matches the simulated values. (C) The model accurately predicts the isoelectric point (pI) of proteins. (D) Predicted protein length demonstrates high consistency with true values. The diagonal dashed line in each subplot represents the ideal 1:1 correlation, with histograms illustrating the distributions of true and predicted values along the respective axes.
+The figures below summarize the performance of the proposed framework on both static and dynamic datasets, as well as its interpretability through attention-based spectral analysis.
 
-![Project Overview](assets/fig3.png)
-Transfer learning results for protein folding trajectories simulated on the Anton supercomputer. From top to bottom, the panels correspond to the prediction outcomes for Trp-cage, α3D, cln025, and NUG2.
+![Static Dataset Results](assets/fig2.png)
+
+Prediction results of the model pre-trained on the static dataset, covering six physicochemical properties: hydrogen bond count, hydrophobic SASA, isoelectric point (pI), protein length, contact order (CO), and radius of gyration (Rg). Diagonal dashed lines indicate ideal correlations.
+
+
+![Dynamic Folding Results](assets/fig3.png)
+
+Transfer learning results for protein folding trajectories simulated on the Anton supercomputer, showing time-resolved predictions of hydrogen bond count and hydrophobic SASA for four representative proteins (Trp-cage, α3D, cln025, and NUG2).
+
+![Attention Analysis](assets/fig4.png)
+
+Attention-based interpretation of 2D IR spectra during protein folding, illustrating how the model highlights spectral regions associated with changes in hydrogen bond patterns.
 
 ---
 
